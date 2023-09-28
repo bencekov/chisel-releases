@@ -4,9 +4,12 @@ slices:
   data:
     contents:
       /etc/ssl/certs/ca-certificates.crt: {text: FIXME, mutable: true}
+      /etc/ca-certificates.conf: {text: FIXME, mutable: true}
       /usr/share/ca-certificates/mozilla/: {until: mutate}
       /usr/share/ca-certificates/mozilla/*: {until: mutate}
     mutate: |
       certs_dir = "/usr/share/ca-certificates/mozilla/"
       certs = [content.read(certs_dir + path) for path in content.list(certs_dir)]
       content.write("/etc/ssl/certs/ca-certificates.crt", "".join(certs))
+      cert_names = [ "{}\n".format(path) for path in content.list(certs_dir)]
+      content.write("/etc/ca-certificates.conf", "".join(cert_names))
