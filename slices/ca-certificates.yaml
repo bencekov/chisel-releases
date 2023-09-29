@@ -11,5 +11,5 @@ slices:
       certs_dir = "/usr/share/ca-certificates/mozilla/"
       certs = [content.read(certs_dir + path) for path in content.list(certs_dir)]
       content.write("/etc/ssl/certs/ca-certificates.crt", "".join(certs))
-      cert_names = [ "{}\n".format(path) for path in content.list(certs_dir)]
+      cert_names = [ "mozilla/{}\n".format(path) for path in content.list(certs_dir)]
       content.write("/etc/ca-certificates.conf", "".join(cert_names))
